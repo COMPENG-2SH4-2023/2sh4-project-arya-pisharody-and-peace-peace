@@ -30,6 +30,9 @@ void Player::updatePlayerDir()
     char input = mainGameMechsRef->getInput();
 
     switch(input) {
+        case ' ':  // exit
+            mainGameMechsRef->setExitTrue();
+            break;
         case 'w':
             if(myDir != DOWN) {
                 myDir = UP;
@@ -62,31 +65,34 @@ void Player::updatePlayerDir()
 
 void Player::movePlayer()
 {
+    int boardX = mainGameMechsRef->getBoardSizeX();
+    int boardY = mainGameMechsRef->getBoardSizeY();
+    
     // PPA3 Finite State Machine logic
     switch(myDir) {
         case UP:
             if(playerPos.x == 0) {
-                playerPos.x = 10;
+                playerPos.x = boardX;
             }
             playerPos.x--;
             break;
         
         case LEFT:
             if(playerPos.y == 0) {
-                playerPos.y = 20;
+                playerPos.y = boardY;
             }
             playerPos.y--;
             break;
 
         case DOWN:
-            if(playerPos.x == 10) {
+            if(playerPos.x == boardX) {
                 playerPos.x = 0;
             }
             playerPos.x++;
             break;
 
         case RIGHT:
-            if(playerPos.y == 20) {
+            if(playerPos.y == boardY) {
                 playerPos.y = 0;
             }
             playerPos.y++;

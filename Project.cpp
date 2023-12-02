@@ -8,7 +8,6 @@ using namespace std;
 
 #define DELAY_CONST 100000
 
-bool exitFlag;
 
 Player* player;
 GameMechs* thisGMRef;
@@ -27,7 +26,7 @@ int main(void)
 
     Initialize();
 
-    while(exitFlag == false)  
+    while(thisGMRef->getExitFlagStatus() == false)  
     {
         GetInput();
         RunLogic();
@@ -44,20 +43,14 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
-
-    exitFlag = false;
     
-    thisGMRef = new GameMechs();
+    thisGMRef = new GameMechs(15, 30);
     player = new Player(thisGMRef);
+
 }
 
 void GetInput(void)
 {
-    MacUILib_printf("heloo");
-//    if (thisGMRef->getInput() == ' ')
-//    {
-//     thisGMRef->setExitTrue();
-//    }
    
 
 }
@@ -78,9 +71,11 @@ void DrawScreen(void)
     int x, y;
 
     objPos currentPos;
+    int boardX = thisGMRef->getBoardSizeX();
+    int boardY = thisGMRef->getBoardSizeY();
 
-    for(x = 0; x < 10; x++) {
-        for(y = 0; y < 20; y++) {
+    for(x = 0; x < boardX; x++) {
+        for(y = 0; y < boardY; y++) {
 
             player->getPlayerPos(currentPos);
 
@@ -88,12 +83,12 @@ void DrawScreen(void)
                 MacUILib_printf("%c", currentPos.symbol);
             } else {
 
-                if((x == 0) || (x == 9)) {
+                if((x == 0) || (x == (boardX-1))) {
                     MacUILib_printf("#");
 
-                } else if ((x != 0) || (x != 9)) {
+                } else if ((x != 0) || (x != (boardX-1))) {
 
-                    if((y == 0) || (y == 19)) {
+                    if((y == 0) || (y == (boardY-1))) {
                         MacUILib_printf("#");
                     } else {
                         MacUILib_printf(" ");
