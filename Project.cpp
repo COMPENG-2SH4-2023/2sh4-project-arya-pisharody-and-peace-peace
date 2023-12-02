@@ -53,7 +53,13 @@ void Initialize(void)
 
 void GetInput(void)
 {
+    MacUILib_printf("heloo");
+//    if (thisGMRef->getInput() == ' ')
+//    {
+//     thisGMRef->setExitTrue();
+//    }
    
+
 }
 
 void RunLogic(void)
