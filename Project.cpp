@@ -2,6 +2,8 @@
 #include "MacUILib.h"
 #include "objPos.h"
 #include "Player.h"
+#include "Food.h"
+#include "GameMechs.h"
 
 
 using namespace std;
@@ -11,6 +13,7 @@ using namespace std;
 
 Player* player;
 GameMechs* thisGMRef;
+Food* food;
 
 void Initialize(void);
 void GetInput(void);
@@ -45,7 +48,9 @@ void Initialize(void)
     MacUILib_clearScreen();
     
     thisGMRef = new GameMechs(15, 30);
+    food = new Food(*thisGMRef);
     player = new Player(thisGMRef);
+
 
 }
 
@@ -78,6 +83,7 @@ void DrawScreen(void)
         for(y = 0; y < boardY; y++) {
 
             player->getPlayerPos(currentPos);
+            food->getFoodPos(currentPos);
 
             if((x == currentPos.x) && (y == currentPos.y)){
                 MacUILib_printf("%c", currentPos.symbol);
@@ -112,4 +118,5 @@ void CleanUp(void)
     MacUILib_clearScreen();    
   
     MacUILib_uninit();
+
 }

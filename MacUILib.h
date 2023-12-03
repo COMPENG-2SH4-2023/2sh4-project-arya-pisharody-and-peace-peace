@@ -1,7 +1,7 @@
 #ifndef MAC_UI_LIB
 #define MAC_UI_LIB
 
-	// #define WINDOWS
+	//#define WINDOWS
 	#define POSIX
 
 	#include <stdio.h>
