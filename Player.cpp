@@ -86,28 +86,28 @@ void Player::movePlayer()
     switch(myDir) {
         case UP:
             currentHead.y--;
-            if(currentHead.y <= 0) {
+            if(currentHead.y == 0) {
                 currentHead.y = boardX;
             }
             break;
         
         case LEFT:
             currentHead.x--;
-            if(currentHead.x <= 0) {
+            if(currentHead.x == 0) {
                 currentHead.x = boardY;
             }
             break;
 
         case DOWN:
             currentHead.y++;
-            if(currentHead.y >= boardX) {
+            if(currentHead.y == boardX) {
                 currentHead.y = 0;
             }
             break;
 
         case RIGHT:
             currentHead.x++;
-            if(currentHead.x >= boardY) {
+            if(currentHead.x == boardY) {
                 currentHead.x = 0;
             }
             break;
@@ -117,13 +117,12 @@ void Player::movePlayer()
 
     }
 
-    objPos currentFoodPos;
-    mainGameFoodRef->getFoodPos(currentFoodPos);
+    
     objPos blockOff;
-    // blockOff.setObjPos(currentHead.x, currentHead.y, currentHead.symbol);
+    blockOff.setObjPos(currentHead);
 
-    if((currentHead.x == currentFoodPos.x) && (currentHead.y == currentFoodPos.y)) {
-        playerPosList->insertHead(currentHead);
+    if(checkFoodConsumption()) {
+        increasePlayerLength();
         mainGameFoodRef->generateFood(currentHead);
     } else {
         playerPosList->insertHead(currentHead);
@@ -133,3 +132,25 @@ void Player::movePlayer()
     
 }
 
+bool Player::checkFoodConsumption() {
+    objPos currentHead;
+    playerPosList->getHeadElement(currentHead);
+    objPos currentFoodPos;
+    mainGameFoodRef->getFoodPos(currentFoodPos);
+    // currentFoodPos.setObjPos(10, 10, 'o');
+
+    if((currentHead.x == currentFoodPos.y) && (currentHead.y == currentFoodPos.x)) {
+        return true;
+    } else {
+        return false;
+    }
+
+}
+
+void Player::increasePlayerLength() {
+    objPos currentHead;
+    playerPosList->getHeadElement(currentHead);
+
+    playerPosList->insertHead(currentHead);
+    
+}

@@ -4,7 +4,6 @@
 Food::Food(GameMechs* thisGMRef)
 {
     mainGameMechsRef = thisGMRef;
-    // mainGameMechsRef = &thisGMRef;
     foodPos.x = 10;
     foodPos.y = 10;
     foodPos.symbol = 'o';

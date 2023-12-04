@@ -83,7 +83,7 @@ void RunLogic(void)
 
     player->updatePlayerDir();
     player->movePlayer();
-    thisGMRef->clearInput();
+    // thisGMRef->clearInput();
 
     // // check for collision
     // if((currentPos.x == foodPos.x)&&(currentPos.y == foodPos.y)) {
@@ -106,8 +106,7 @@ void DrawScreen(void)
     objPosArrayList* playerBody = player->getPlayerPos();
     objPos currentSegment;
     objPos foodPos;
-
-    //player->getPlayerPos(currentPos);
+    
     food->getFoodPos(foodPos);
 
     for(x = 0; x < boardX; x++) {
@@ -131,7 +130,6 @@ void DrawScreen(void)
 
             if((x == foodPos.x) && (y == foodPos.y)) {
                 MacUILib_printf("%c", foodPos.symbol);
-                // MacUILib_printf("%d", player->playerPosList->getSize());
                 
             } else {
 
@@ -152,6 +150,7 @@ void DrawScreen(void)
     }
 
     MacUILib_printf("Food position: (%d, %d)", foodPos.x, foodPos.y);
+    // MacUILib_printf("Player head position: (%d, %d)", playerBody->getElement(currentSegment, 0)->x, playerBody->getHeadElement()->y);
 
 }
 
