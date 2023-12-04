@@ -1,13 +1,13 @@
 #include "Food.h"
 #include <time.h>
 
-Food::Food(GameMechs& thisGMRef)
+Food::Food(GameMechs* thisGMRef)
 {
-    //mainGameMechsRef = thisGMRef;
-    mainGameMechsRef = &thisGMRef;
-    foodPos.x = 0;
-    foodPos.y = 0;
-    foodPos.symbol = 'O';
+    mainGameMechsRef = thisGMRef;
+    // mainGameMechsRef = &thisGMRef;
+    foodPos.x = 10;
+    foodPos.y = 10;
+    foodPos.symbol = 'o';
 }
 
 Food::~Food()
@@ -17,8 +17,8 @@ Food::~Food()
 
 void Food::generateFood(objPos blockOff)
 {
-    int a = 0, b = 0;
-    char symb = 'O';
+    int a, b;
+    char symb = 'o';
 
     int boardX = mainGameMechsRef->getBoardSizeX();
     int boardY = mainGameMechsRef->getBoardSizeY();
@@ -39,5 +39,5 @@ void Food::generateFood(objPos blockOff)
 
 void Food::getFoodPos(objPos &returnPos)
 {
-    returnPos.setObjPos(foodPos);
+    returnPos.setObjPos(foodPos.x, foodPos.y, foodPos.symbol);
 }

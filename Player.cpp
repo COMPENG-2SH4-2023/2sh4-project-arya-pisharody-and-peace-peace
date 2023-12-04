@@ -1,26 +1,38 @@
 #include "Player.h"
 
 
-Player::Player(GameMechs* thisGMRef)
+Player::Player(GameMechs* thisGMRef, Food* foodRef)
 {
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
+    mainGameFoodRef = foodRef;
 
     // more actions to be included
-    playerPos.setObjPos(5, 11, '*');
+    objPos initialPos;
+    initialPos.setObjPos(5, 11, '*');
+
+    playerPosList = new objPosArrayList();
+    playerPosList->insertHead(initialPos);
+
+    // playerPosList->insertHead(initialPos);
+    // playerPosList->insertHead(initialPos);
+    // playerPosList->insertHead(initialPos);
+
+    
 }
 
 
 Player::~Player()
 {
-    // delete any heap members here
+    delete playerPosList;
     
 }
 
-void Player::getPlayerPos(objPos &returnPos)
+objPosArrayList* Player::getPlayerPos()
 {
+    
     // return the reference to the playerPos arrray list
-    returnPos.setObjPos(playerPos.x, playerPos.y, playerPos.symbol);
+    return playerPosList;
 }
 
 void Player::updatePlayerDir()
@@ -67,40 +79,57 @@ void Player::movePlayer()
 {
     int boardX = mainGameMechsRef->getBoardSizeX();
     int boardY = mainGameMechsRef->getBoardSizeY();
+    objPos currentHead;
+    playerPosList->getHeadElement(currentHead);
     
     // PPA3 Finite State Machine logic
     switch(myDir) {
         case UP:
-            if(playerPos.x == 0) {
-                playerPos.x = boardX;
+            currentHead.y--;
+            if(currentHead.y <= 0) {
+                currentHead.y = boardX;
             }
-            playerPos.x--;
             break;
         
         case LEFT:
-            if(playerPos.y == 0) {
-                playerPos.y = boardY;
+            currentHead.x--;
+            if(currentHead.x <= 0) {
+                currentHead.x = boardY;
             }
-            playerPos.y--;
             break;
 
         case DOWN:
-            if(playerPos.x == boardX) {
-                playerPos.x = 0;
+            currentHead.y++;
+            if(currentHead.y >= boardX) {
+                currentHead.y = 0;
             }
-            playerPos.x++;
             break;
 
         case RIGHT:
-            if(playerPos.y == boardY) {
-                playerPos.y = 0;
+            currentHead.x++;
+            if(currentHead.x >= boardY) {
+                currentHead.x = 0;
             }
-            playerPos.y++;
             break;
 
         default:
             break;
 
     }
+
+    objPos currentFoodPos;
+    mainGameFoodRef->getFoodPos(currentFoodPos);
+    objPos blockOff;
+    // blockOff.setObjPos(currentHead.x, currentHead.y, currentHead.symbol);
+
+    if((currentHead.x == currentFoodPos.x) && (currentHead.y == currentFoodPos.y)) {
+        playerPosList->insertHead(currentHead);
+        mainGameFoodRef->generateFood(currentHead);
+    } else {
+        playerPosList->insertHead(currentHead);
+        playerPosList->removeTail();
+    }
+
+    
 }
 

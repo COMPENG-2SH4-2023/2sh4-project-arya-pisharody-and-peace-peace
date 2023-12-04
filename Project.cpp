@@ -48,8 +48,16 @@ void Initialize(void)
     MacUILib_clearScreen();
     
     thisGMRef = new GameMechs(15, 30);
-    food = new Food(*thisGMRef);
-    player = new Player(thisGMRef);
+    food = new Food(thisGMRef);
+    player = new Player(thisGMRef, food);
+
+    // objPos blockOffPos;
+    // objPos currentPos;
+    // player->getPlayerPos()->getHeadElement(currentPos);
+    // blockOffPos = objPos(-1, -1, 'o');
+    // blockOffPos = objPos(currentPos.x, currentPos.y, currentPos.symbol);
+
+    // food->generateFood(blockOffPos);
 
 
 }
@@ -63,9 +71,25 @@ void GetInput(void)
 void RunLogic(void)
 {
 
+    // char collision_symbol;
+
+    // objPos blockOffPos;
+    // objPos currentPos;
+    // objPos foodPos;
+
+    // player->getPlayerPos()->getHeadElement(currentPos);
+    // food->getFoodPos(foodPos);
+    // blockOffPos = objPos(currentPos.x, currentPos.y, currentPos.symbol);
+
     player->updatePlayerDir();
     player->movePlayer();
-    
+    thisGMRef->clearInput();
+
+    // // check for collision
+    // if((currentPos.x == foodPos.x)&&(currentPos.y == foodPos.y)) {
+    //     food->generateFood(blockOffPos);
+    // }
+
 }
 
 void DrawScreen(void)
@@ -74,19 +98,41 @@ void DrawScreen(void)
 
     // x = rows, y = columns
     int x, y;
+    bool flag;
 
-    objPos currentPos;
     int boardX = thisGMRef->getBoardSizeX();
     int boardY = thisGMRef->getBoardSizeY();
+
+    objPosArrayList* playerBody = player->getPlayerPos();
+    objPos currentSegment;
+    objPos foodPos;
+
+    //player->getPlayerPos(currentPos);
+    food->getFoodPos(foodPos);
 
     for(x = 0; x < boardX; x++) {
         for(y = 0; y < boardY; y++) {
 
-            player->getPlayerPos(currentPos);
-            food->getFoodPos(currentPos);
+            flag = false;
 
-            if((x == currentPos.x) && (y == currentPos.y)){
-                MacUILib_printf("%c", currentPos.symbol);
+            for(int k = 0; k < playerBody->getSize(); k++) {
+                playerBody->getElement(currentSegment,k);
+
+                if((currentSegment.x == y) && (currentSegment.y == x)) {
+                    MacUILib_printf("%c", currentSegment.symbol);
+                    flag = true;
+                    break;
+                }
+            }
+
+            if(flag){
+                continue;
+            }
+
+            if((x == foodPos.x) && (y == foodPos.y)) {
+                MacUILib_printf("%c", foodPos.symbol);
+                // MacUILib_printf("%d", player->playerPosList->getSize());
+                
             } else {
 
                 if((x == 0) || (x == (boardX-1))) {
@@ -104,6 +150,8 @@ void DrawScreen(void)
         }
         MacUILib_printf("\n");
     }
+
+    MacUILib_printf("Food position: (%d, %d)", foodPos.x, foodPos.y);
 
 }
 
