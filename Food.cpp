@@ -14,25 +14,35 @@ Food::~Food()
 
 }
 
-void Food::generateFood(objPos blockOff)
+void Food::generateFood(objPos blockOff, objPosArrayList* playerBody)
 {
     int a, b;
     char symb = 'o';
 
     int boardX = mainGameMechsRef->getBoardSizeX();
     int boardY = mainGameMechsRef->getBoardSizeY();
+    objPos currentSegment;
 
-    while (1) {
+    bool valid = false;
+
+    while (valid == false) {
         a = (rand() % boardX) +1;
         b = (rand() % boardY) +1;
 
-        if (a != blockOff.x && b != blockOff.y) {
-            foodPos.x = a;
-            foodPos.y = b;
-            foodPos.symbol = symb;
-            break;
+        for(int k = 0; k < playerBody->getSize(); k++) {
+            valid = true;
+            playerBody->getElement(currentSegment,k);
+
+            if (a == currentSegment.x && b == currentSegment.y) {
+                valid = false;
+                break;
+            }    
         }
     }
+
+    foodPos.x = a;
+    foodPos.y = b;
+    foodPos.symbol = symb;
     
 }
 

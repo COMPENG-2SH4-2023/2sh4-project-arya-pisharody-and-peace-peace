@@ -123,7 +123,7 @@ void Player::movePlayer()
 
     if(checkFoodConsumption()) {
         increasePlayerLength();
-        mainGameFoodRef->generateFood(currentHead);
+        mainGameFoodRef->generateFood(currentHead, playerPosList);
     } else {
         playerPosList->insertHead(currentHead);
         playerPosList->removeTail();
@@ -137,7 +137,6 @@ bool Player::checkFoodConsumption() {
     playerPosList->getHeadElement(currentHead);
     objPos currentFoodPos;
     mainGameFoodRef->getFoodPos(currentFoodPos);
-    // currentFoodPos.setObjPos(10, 10, 'o');
 
     if((currentHead.x == currentFoodPos.y) && (currentHead.y == currentFoodPos.x)) {
         return true;
@@ -152,5 +151,6 @@ void Player::increasePlayerLength() {
     playerPosList->getHeadElement(currentHead);
 
     playerPosList->insertHead(currentHead);
+    mainGameMechsRef->incrementScore();
     
 }
