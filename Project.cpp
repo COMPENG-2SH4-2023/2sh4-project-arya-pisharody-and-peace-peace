@@ -10,7 +10,7 @@ using namespace std;
 
 #define DELAY_CONST 100000
 
-
+// declare pointer variables
 Player* player;
 GameMechs* thisGMRef;
 Food* food;
@@ -51,17 +51,10 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
     
+    // initialize variable on the heap
     thisGMRef = new GameMechs(30, 15);
     food = new Food(thisGMRef);
     player = new Player(thisGMRef, food);
-
-    // objPos blockOffPos;
-    // objPos currentPos;
-    // player->getPlayerPos()->getHeadElement(currentPos);
-    // blockOffPos = objPos(-1, -1, 'o');
-    // blockOffPos = objPos(currentPos.x, currentPos.y, currentPos.symbol);
-
-    // food->generateFood(blockOffPos);
 
 
 }
@@ -75,24 +68,8 @@ void GetInput(void)
 void RunLogic(void)
 {
 
-    // char collision_symbol;
-
-    // objPos blockOffPos;
-    // objPos currentPos;
-    // objPos foodPos;
-
-    // player->getPlayerPos()->getHeadElement(currentPos);
-    // food->getFoodPos(foodPos);
-    // blockOffPos = objPos(currentPos.x, currentPos.y, currentPos.symbol);
-
     player->updatePlayerDir();
     player->movePlayer();
-    // thisGMRef->clearInput();
-
-    // // check for collision
-    // if((currentPos.x == foodPos.x)&&(currentPos.y == foodPos.y)) {
-    //     food->generateFood(blockOffPos);
-    // }
 
 }
 
@@ -100,7 +77,7 @@ void DrawScreen(void)
 {
     MacUILib_clearScreen();
 
-    // x = rows, y = columns
+    // declare variables for drawing
     int x, y;
     bool flag;
 
@@ -113,14 +90,17 @@ void DrawScreen(void)
     
     food->getFoodPos(foodPos);
 
+    // draw the board with the specified vertical and horizontal lengths (x and y)
     for(y = 0; y < boardY; y++) {
         for(x = 0; x < boardX; x++) {
 
             flag = false;
 
+            // iterate through every element in the player body (list)
             for(int k = 0; k < playerBody->getSize(); k++) {
                 playerBody->getElement(currentSegment,k);
 
+                // compare the coordinates, and print the body of the player/snake accordingly
                 if((currentSegment.x == x) && (currentSegment.y == y)) {
                     MacUILib_printf("%c", currentSegment.symbol);
                     flag = true;
@@ -132,11 +112,11 @@ void DrawScreen(void)
                 continue;
             }
 
+            // draw the food at it's randomly generated location
             if((x == foodPos.x) && (y == foodPos.y)) {
                 MacUILib_printf("%c", foodPos.symbol);
                 
             } else {
-
                 if((y == 0) || (y == (boardY-1))) {
                     MacUILib_printf("#");
 
@@ -152,10 +132,8 @@ void DrawScreen(void)
         }
         MacUILib_printf("\n");
     }
-    MacUILib_printf("food (%d,%d)", foodPos.x, foodPos.y);
+    
     MacUILib_printf("Score: %d", thisGMRef->getScore());
-    // MacUILib_printf("Player head position: (%d, %d)", playerBody->getElement(currentSegment, 0)->x, playerBody->getHeadElement()->y);
-
 }
 
 void LoopDelay(void)

@@ -4,21 +4,15 @@
 Player::Player(GameMechs* thisGMRef, Food* foodRef)
 {
     mainGameMechsRef = thisGMRef;
-    myDir = STOP;
     mainGameFoodRef = foodRef;
 
-    // more actions to be included
+    myDir = STOP;
+
     objPos initialPos;
     initialPos.setObjPos(5, 11, '*');
 
     playerPosList = new objPosArrayList();
-    playerPosList->insertHead(initialPos);
-
-    // playerPosList->insertHead(initialPos);
-    // playerPosList->insertHead(initialPos);
-    // playerPosList->insertHead(initialPos);
-
-    
+    playerPosList->insertHead(initialPos);   
 }
 
 
@@ -38,11 +32,11 @@ objPosArrayList* Player::getPlayerPos()
 void Player::updatePlayerDir()
 {
     // PPA3 input processing logic
-
     char input = mainGameMechsRef->getInput();
 
+    // switch statement to handle keyboard input
     switch(input) {
-        case ' ':  // exit
+        case ' ':  // exit case
             mainGameMechsRef->setExitTrue();
             break;
         case 'w':
@@ -70,7 +64,6 @@ void Player::updatePlayerDir()
             }
             break;
         default:
-        // MacUILib_printf("STOP");
             break;
     }
 }
@@ -117,6 +110,7 @@ void Player::movePlayer()
 
     }
 
+    // check if the head of the player has collided with it's body and exit the game if it has
     if(checkSelfCollision())
     {
         mainGameMechsRef->setExitTrue();
@@ -126,6 +120,8 @@ void Player::movePlayer()
     objPos blockOff;
     blockOff.setObjPos(currentHead);
 
+    // if a collision has taken place between the player head and food, increase the size of the player body
+    // and randomly generate more food
     if(checkFoodConsumption()) {
         increasePlayerLength();
         mainGameFoodRef->generateFood(currentHead, playerPosList);
@@ -143,6 +139,7 @@ bool Player::checkFoodConsumption() {
     objPos currentFoodPos;
     mainGameFoodRef->getFoodPos(currentFoodPos);
 
+    // check if a collision has taken place between the player head and food
     if((currentHead.x == currentFoodPos.x) && (currentHead.y == currentFoodPos.y)) {
         return true;
     } else {
@@ -166,10 +163,11 @@ bool Player::checkSelfCollision()
     objPos currentHead;
     playerPosList->getHeadElement(currentHead);
 
-
     for(int k = 2; k < playerPosList->getSize(); k++) {
 
         playerPosList->getElement(currentSegment,k);
+
+        // check if the player head has colided with any other part of the player body
         if (currentHead.x == currentSegment.x && currentHead.y == currentSegment.y) {
             return true;
         }    

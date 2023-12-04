@@ -1,6 +1,5 @@
 #include "objPosArrayList.h"
 
-// Constructor
 objPosArrayList::objPosArrayList() {
     sizeList = 0;
     sizeArray = ARRAY_MAX_CAP;
@@ -8,7 +7,6 @@ objPosArrayList::objPosArrayList() {
 
 }
 
-//Destructor
 objPosArrayList::~objPosArrayList() {
     delete[] aList;
 }
@@ -17,16 +15,15 @@ int objPosArrayList::getSize() {
     return sizeList;
 }
 
-//Insert
 void objPosArrayList::insertHead(objPos thisPos) {
     if(sizeList == sizeArray) {
         return;
     }
 
     for (int i = sizeList; i > 0; i--) {
-        aList[i] = aList[i-1]; 
+        aList[i] = aList[i-1]; // shift all elements towards the tail to make space for the head
     }
-    aList[0] = thisPos;
+    aList[0] = thisPos; // insert the new head element at index 0
     sizeList++;
 }
 
@@ -35,11 +32,9 @@ void objPosArrayList::insertTail(objPos thisPos) {
         return;
     }
 
-    aList[sizeList] = thisPos;
+    aList[sizeList] = thisPos; // insert the element at the end (or the tail) of the list
     sizeList++;
 }
-
-//Delete
 
 void objPosArrayList::removeHead() {
     if(sizeList == 0) {
@@ -60,11 +55,9 @@ void objPosArrayList::removeTail() {
     if(sizeList == 0) {
         return;
     }
-    
     sizeList--;
     
 }
-
 
 void objPosArrayList::getHeadElement(objPos &returnValue) {
     returnValue = aList[0];
