@@ -4,9 +4,15 @@
 
 Food::Food(GameMechs* thisGMRef)
 {
+    srand(time(NULL));
     mainGameMechsRef = thisGMRef;
-    foodPos.x = 10;
-    foodPos.y = 10;
+    int boardX = mainGameMechsRef->getBoardSizeX();
+    int boardY = mainGameMechsRef->getBoardSizeY();
+
+    // foodPos.x = 10;
+    // foodPos.y = 10;
+    foodPos.x = (rand() % (boardX-2)) +1;
+    foodPos.y = (rand() % (boardY-2)) +1;
     foodPos.symbol = 'o';
 }
 
@@ -17,12 +23,8 @@ Food::~Food()
 
 void Food::generateFood(objPos blockOff, objPosArrayList* playerBody)
 {
-    srand(time(NULL));
     int a, b;
     char symb = 'o';
-
-    int boardX = mainGameMechsRef->getBoardSizeX();
-    int boardY = mainGameMechsRef->getBoardSizeY();
 
     bool valid = false;
 

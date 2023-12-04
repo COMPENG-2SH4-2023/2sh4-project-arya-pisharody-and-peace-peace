@@ -12,6 +12,13 @@ class Food
     private:
         objPos foodPos;
         GameMechs* mainGameMechsRef;
+        int boardX;
+        int boardY;
+        int a;
+        int b;
+        char symb;
+
+        bool valid;
 
 
     public:
