@@ -1,5 +1,5 @@
 #include "Food.h"
-#include <time.h>
+#include <stdlib.h>
 
 Food::Food(GameMechs* thisGMRef)
 {
@@ -21,25 +21,23 @@ void Food::generateFood(objPos blockOff, objPosArrayList* playerBody)
 
     int boardX = mainGameMechsRef->getBoardSizeX();
     int boardY = mainGameMechsRef->getBoardSizeY();
-    objPos currentSegment;
 
     bool valid = false;
 
     while (valid == false) {
-        a = (rand() % boardX) +1;
-        b = (rand() % boardY) +1;
+        a = (rand() % boardX-2) +1;
+        b = (rand() % boardY-2) +1;
 
         for(int k = 0; k < playerBody->getSize(); k++) {
             valid = true;
-            playerBody->getElement(currentSegment,k);
+            playerBody->getElement(blockOff,k);
 
-            if (a == currentSegment.x && b == currentSegment.y) {
+            if (a == blockOff.x && b == blockOff.y) {
                 valid = false;
                 break;
             }    
         }
     }
-
     foodPos.x = a;
     foodPos.y = b;
     foodPos.symbol = symb;

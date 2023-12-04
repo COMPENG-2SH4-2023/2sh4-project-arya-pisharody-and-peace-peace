@@ -47,7 +47,7 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
     
-    thisGMRef = new GameMechs(15, 30);
+    thisGMRef = new GameMechs(30, 15);
     food = new Food(thisGMRef);
     player = new Player(thisGMRef, food);
 
@@ -109,15 +109,15 @@ void DrawScreen(void)
     
     food->getFoodPos(foodPos);
 
-    for(x = 0; x < boardX; x++) {
-        for(y = 0; y < boardY; y++) {
+    for(y = 0; y < boardY; y++) {
+        for(x = 0; x < boardX; x++) {
 
             flag = false;
 
             for(int k = 0; k < playerBody->getSize(); k++) {
                 playerBody->getElement(currentSegment,k);
 
-                if((currentSegment.x == y) && (currentSegment.y == x)) {
+                if((currentSegment.x == x) && (currentSegment.y == y)) {
                     MacUILib_printf("%c", currentSegment.symbol);
                     flag = true;
                     break;
@@ -133,12 +133,12 @@ void DrawScreen(void)
                 
             } else {
 
-                if((x == 0) || (x == (boardX-1))) {
+                if((y == 0) || (y == (boardY-1))) {
                     MacUILib_printf("#");
 
-                } else if ((x != 0) || (x != (boardX-1))) {
+                } else if ((y != 0) || (y != (boardY-1))) {
 
-                    if((y == 0) || (y == (boardY-1))) {
+                    if((x == 0) || (x == (boardX-1))) {
                         MacUILib_printf("#");
                     } else {
                         MacUILib_printf(" ");
@@ -148,7 +148,7 @@ void DrawScreen(void)
         }
         MacUILib_printf("\n");
     }
-
+    MacUILib_printf("Food pos: (%d,%d)\n", foodPos.x, foodPos.y);
     MacUILib_printf("Score: %d", thisGMRef->getScore());
     // MacUILib_printf("Player head position: (%d, %d)", playerBody->getElement(currentSegment, 0)->x, playerBody->getHeadElement()->y);
 
@@ -163,6 +163,11 @@ void LoopDelay(void)
 void CleanUp(void)
 {
     MacUILib_clearScreen();    
+
+    if(thisGMRef->getLoseFlagStatus())
+    {
+        MacUILib_printf("Game Ended. You Scored: %d", thisGMRef->getScore());
+    }
   
     MacUILib_uninit();
 

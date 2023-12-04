@@ -86,29 +86,29 @@ void Player::movePlayer()
     switch(myDir) {
         case UP:
             currentHead.y--;
-            if(currentHead.y == 0) {
-                currentHead.y = boardX;
+            if(currentHead.y <= 0) {
+                currentHead.y = boardY-2;
             }
             break;
         
         case LEFT:
             currentHead.x--;
-            if(currentHead.x == 0) {
-                currentHead.x = boardY;
+            if(currentHead.x <= 0) {
+                currentHead.x = boardX-2;
             }
             break;
 
         case DOWN:
             currentHead.y++;
-            if(currentHead.y == boardX) {
-                currentHead.y = 0;
+            if(currentHead.y >= boardY-1) {
+                currentHead.y = 1;
             }
             break;
 
         case RIGHT:
             currentHead.x++;
-            if(currentHead.x == boardY) {
-                currentHead.x = 0;
+            if(currentHead.x >= boardX-1) {
+                currentHead.x = 1;
             }
             break;
 
@@ -117,6 +117,11 @@ void Player::movePlayer()
 
     }
 
+    if(checkSelfCollision())
+    {
+        mainGameMechsRef->setExitTrue();
+        mainGameMechsRef->setLoseFlag();
+    }
     
     objPos blockOff;
     blockOff.setObjPos(currentHead);
@@ -138,7 +143,7 @@ bool Player::checkFoodConsumption() {
     objPos currentFoodPos;
     mainGameFoodRef->getFoodPos(currentFoodPos);
 
-    if((currentHead.x == currentFoodPos.y) && (currentHead.y == currentFoodPos.x)) {
+    if((currentHead.x == currentFoodPos.x) && (currentHead.y == currentFoodPos.y)) {
         return true;
     } else {
         return false;
@@ -153,4 +158,21 @@ void Player::increasePlayerLength() {
     playerPosList->insertHead(currentHead);
     mainGameMechsRef->incrementScore();
     
+}
+
+bool Player::checkSelfCollision()
+{
+    objPos currentSegment;
+    objPos currentHead;
+    playerPosList->getHeadElement(currentHead);
+
+
+    for(int k = 3; k < playerPosList->getSize(); k++) {
+
+        playerPosList->getElement(currentSegment,k);
+        if (currentHead.x == currentSegment.x && currentHead.y == currentSegment.y) {
+            return true;
+        }    
+    }
+
 }
