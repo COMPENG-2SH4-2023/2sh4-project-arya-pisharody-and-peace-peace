@@ -167,7 +167,7 @@ bool Player::checkSelfCollision()
     playerPosList->getHeadElement(currentHead);
 
 
-    for(int k = 3; k < playerPosList->getSize(); k++) {
+    for(int k = 2; k < playerPosList->getSize(); k++) {
 
         playerPosList->getElement(currentSegment,k);
         if (currentHead.x == currentSegment.x && currentHead.y == currentSegment.y) {

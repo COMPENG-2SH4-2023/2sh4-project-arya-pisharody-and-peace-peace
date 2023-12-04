@@ -1,5 +1,6 @@
 #include "Food.h"
 #include <stdlib.h>
+#include <time.h>
 
 Food::Food(GameMechs* thisGMRef)
 {
@@ -16,6 +17,7 @@ Food::~Food()
 
 void Food::generateFood(objPos blockOff, objPosArrayList* playerBody)
 {
+    srand(time(NULL));
     int a, b;
     char symb = 'o';
 
@@ -25,8 +27,8 @@ void Food::generateFood(objPos blockOff, objPosArrayList* playerBody)
     bool valid = false;
 
     while (valid == false) {
-        a = (rand() % boardX-2) +1;
-        b = (rand() % boardY-2) +1;
+        a = (rand() % (boardX-2)) +1;
+        b = (rand() % (boardY-2)) +1;
 
         for(int k = 0; k < playerBody->getSize(); k++) {
             valid = true;

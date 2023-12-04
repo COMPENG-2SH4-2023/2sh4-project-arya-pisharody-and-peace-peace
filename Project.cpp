@@ -168,6 +168,10 @@ void CleanUp(void)
     {
         MacUILib_printf("Game Ended. You Scored: %d", thisGMRef->getScore());
     }
+
+    delete player;
+    delete thisGMRef;
+    delete food;
   
     MacUILib_uninit();
 
