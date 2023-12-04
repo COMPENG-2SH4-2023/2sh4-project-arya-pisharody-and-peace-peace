@@ -152,6 +152,7 @@ void DrawScreen(void)
         }
         MacUILib_printf("\n");
     }
+    MacUILib_printf("food (%d,%d)", foodPos.x, foodPos.y);
     MacUILib_printf("Score: %d", thisGMRef->getScore());
     // MacUILib_printf("Player head position: (%d, %d)", playerBody->getElement(currentSegment, 0)->x, playerBody->getHeadElement()->y);
 
